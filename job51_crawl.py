@@ -4,6 +4,15 @@ import pandas as pd
 import numpy as np
 
 def job51_crawl(new_file):
+    agent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36'
+    proxies = {
+            'http': 'http://124.72.109.183:8118',
+            'http': 'http://49.85.1.79:31666'
+
+    }
+    headers = {'User-Agent':agent}
+    
+
     data = pd.np.empty((1000000, 6)) * pd.np.nan
     df_all = pd.DataFrame(columns=['title', 'place', 'company', 'money', 'job_content', 'url'], data=data)
 
@@ -15,7 +24,7 @@ def job51_crawl(new_file):
         
         for index in range(4, 54):
             if i < 1000000:
-                response = requests.get(site)
+                response = requests.get(site, headers = headers, proxies=proxies)
                 response.encoding = 'gbk'
                 text = response.text
 
@@ -52,13 +61,13 @@ def job51_crawl(new_file):
                     publish_time = root_second.xpath(r'./span[4]/text()')[0]
 
 
-                response = requests.get(url)
+                response = requests.get(url, headers = headers, proxies=proxies)
                 response.encoding = 'gbk'
                 text = response.text
                 root = etree.HTML(text)
 
                 root_second = root.xpath('/html/body/div[3]/div[2]/div[3]/div[2]/div')
-                print 'root_second', root_second
+    
                 if len(root_second) == 0:
                     job_content = ' '
 
